@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/stay_up_to_date_with_music_trending_news" />
+        android:text="@string/stay_up_to_date_with_music_news" />
 
     <ImageView
         app:layout_constraintTop_toBottomOf="@id/txtHeader"
@@ -82,18 +82,46 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:background="@drawable/search_box"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imgArticle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/linearLayoutSearchBox">
+
+        <ImageView
+            android:src="@drawable/ic_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:fontFamily="@font/poppins"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:text="@string/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:gravity="center"
         android:id="@+id/linearLayoutCurrentMonth"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/imgArticle"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutSearchBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="10dp"
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="News From July"
+            android:text="@string/news_from"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_weight="1"
@@ -102,7 +130,8 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="See more"
+            android:fontFamily="@font/playfair_display"
+            android:text="@string/see_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -136,7 +165,8 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="See more"
+            android:text="@string/see_more"
+            android:fontFamily="@font/playfair_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
