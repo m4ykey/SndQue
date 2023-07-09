@@ -9,5 +9,24 @@
         android:id="@+id/homeFragment"
         android:name="com.m4ykey.sndque.presentation.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_newsFromCurrentMonthFragment"
+            app:destination="@id/newsFromCurrentMonthFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.m4ykey.sndque.presentation.home.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/newsFromCurrentMonthFragment"
+        android:name="com.m4ykey.sndque.presentation.home.NewsFromCurrentMonthFragment"
+        android:label="fragment_news_from_current_month"
+        tools:layout="@layout/fragment_news_from_current_month" />
+
+
 </navigation>
