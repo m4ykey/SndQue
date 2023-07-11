@@ -1,191 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.home.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txtRandomId"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:layout_margin="10dp"
-            android:id="@+id/txtHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/playfair_display_bold"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/stay_up_to_date_with_music_news" />
+    <Button
+        android:id="@+id/btnClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <ImageView
-            app:layout_constraintTop_toBottomOf="@id/txtHeader"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="10dp"
-            android:id="@+id/imgArticle"
-            android:layout_width="match_parent"
-            tools:background="@color/black"
-            android:layout_height="250dp"
-            android:contentDescription="@string/article_image" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:layout_constraintBottom_toBottomOf="@id/imgArticle"
-            app:layout_constraintStart_toStartOf="@id/imgArticle"
-            app:layout_constraintEnd_toEndOf="@id/imgArticle">
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/linearLayoutAuthorDate"
-                android:id="@+id/txtTitle"
-                android:fontFamily="@font/playfair_display_bold"
-                tools:text="Master Musicians of Joujouka: The Moroccan band who wowed Glastonbury"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <LinearLayout
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/linearLayoutAuthorDate"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutAuthorDate"
-                    android:id="@+id/txtAuthor"
-                    android:fontFamily="@font/poppins"
-                    tools:text="news@appleinsider.com (William Gallagher)"
-                    android:textSize="13sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:fontFamily="@font/poppins"
-                    android:id="@+id/txtPublishedAt"
-                    tools:text=" • 2023-07-07"
-                    android:textSize="13sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:background="@drawable/search_box"
-            android:padding="10dp"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/imgArticle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/linearLayoutSearchBox">
-
-            <ImageView
-                android:src="@drawable/ic_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/search_box_image" />
-
-            <TextView
-                android:fontFamily="@font/poppins"
-                android:textSize="16sp"
-                android:layout_marginStart="10dp"
-                android:text="@string/search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:gravity="center"
-            android:id="@+id/linearLayoutCurrentMonth"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutSearchBox"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/news_from"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/playfair_display_bold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:fontFamily="@font/playfair_display"
-                android:text="@string/see_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCurrentMonth"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCurrentMonth"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:gravity="center"
-            android:layout_margin="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerViewCurrentMonth"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal"
-            android:id="@+id/linearLayoutAllNews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textSize="18sp"
-                android:fontFamily="@font/playfair_display_bold"
-                android:text="@string/all_news"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:text="@string/see_more"
-                android:fontFamily="@font/playfair_display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewAllNews"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutAllNews"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

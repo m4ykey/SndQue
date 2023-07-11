@@ -1,13 +1,13 @@
 package com.m4ykey.sndque.presentation.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.m4ykey.sndque.R
+import androidx.fragment.app.Fragment
 import com.m4ykey.sndque.databinding.FragmentHomeBinding
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 class HomeFragment : Fragment() {
 
@@ -26,14 +26,24 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-
-            linearLayoutAllNews.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_newsFragment)
-            }
-            linearLayoutCurrentMonth.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_newsFromCurrentMonthFragment)
+            btnClick.setOnClickListener {
+                generateRandomId(20)
             }
         }
+    }
+
+    private fun generateRandomId(length: Int) {
+        val characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+        val stringBuilder = StringBuilder(length)
+        val randomNumber = Random.nextInt(1..9)
+
+        for (id in 1 until length) {
+            val randomId = (characters.indices).random()
+            stringBuilder.append(characters[randomId])
+        }
+        stringBuilder.insert((0 until length).random(), "")
+        val randomId = "$randomNumber" + "$stringBuilder"
+        binding.txtRandomId.text = randomId
     }
 
     override fun onDestroy() {
