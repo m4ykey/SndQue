@@ -25,6 +25,8 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel : HomeViewModel by viewModels()
 
+    private val displayedAlbumId = mutableListOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,8 +40,37 @@ class HomeFragment : Fragment() {
 
         with(binding) {
             btnClick.setOnClickListener {
-                getRandomAlbum()
                 getRandomCharacter()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        homeViewModel.randomAlbumUiState.collect { uiState ->
+                            with(binding) {
+                                when {
+                                    uiState.isLoading -> {
+                                        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                                    }
+                                    uiState.isError?.isNotEmpty() == true -> {
+                                        Toast.makeText(requireContext(), "${uiState.isError}", Toast.LENGTH_SHORT).show()
+                                    }
+                                    uiState.randomAlbumData.isNotEmpty() -> {
+                                        val randomAlbum = uiState.randomAlbumData[0]
+                                        val randomAlbumId = randomAlbum.id
+
+                                        if (!displayedAlbumId.contains(randomAlbumId)) {
+                                            displayedAlbumId.add(randomAlbumId)
+
+                                            val albumCover = randomAlbum.images.find { it.width == 640 && it.height == 640 }
+                                            imgAlbum.load(albumCover?.url)
+                                            val artist = randomAlbum.artists.joinToString(separator = ", ") { it.name }
+                                            txtRandomAlbum.text = artist
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -54,30 +85,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRandomAlbum() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.randomAlbumUiState.collect { uiState ->
-                    with(binding) {
-                        when {
-                            uiState.isLoading -> {
-                                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-                            }
-                            uiState.isError?.isNotEmpty() == true -> {
-                                Toast.makeText(requireContext(), "${uiState.isError}", Toast.LENGTH_SHORT).show()
-                            }
-                            uiState.randomAlbumData.isNotEmpty() -> {
-                                val randomAlbum = uiState.randomAlbumData
-
-                                val albumCover = randomAlbum[0].images.find { it.width == 640 && it.height == 640 }
-                                imgAlbum.load(albumCover?.url)
-                                val artist = randomAlbum[0].artists.joinToString(separator = ", ") { it.name }
-                                txtRandomAlbum.text = artist
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     override fun onDestroy() {
