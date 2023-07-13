@@ -4,15 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import coil.load
 import com.m4ykey.sndque.databinding.FragmentHomeBinding
+import com.m4ykey.sndque.presentation.home.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.random.Random
-import kotlin.random.nextInt
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val homeViewModel : HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,23 +38,46 @@ class HomeFragment : Fragment() {
 
         with(binding) {
             btnClick.setOnClickListener {
-                generateRandomId(20)
+                getRandomAlbum()
+                getRandomCharacter()
             }
         }
     }
 
-    private fun generateRandomId(length: Int) {
-        val characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
-        val stringBuilder = StringBuilder(length)
-        val randomNumber = Random.nextInt(1..9)
-
-        for (id in 1 until length) {
-            val randomId = (characters.indices).random()
-            stringBuilder.append(characters[randomId])
+    private fun getRandomCharacter() {
+        val characters = "abcdefghijklmnopqrstuvwxyz"
+        val randomCharacter = characters.random()
+        lifecycleScope.launch {
+            homeViewModel.getRandomAlbum("$randomCharacter")
+            Toast.makeText(requireContext(), "$randomCharacter", Toast.LENGTH_SHORT).show()
         }
-        stringBuilder.insert((0 until length).random(), "")
-        val randomId = "$randomNumber" + "$stringBuilder"
-        binding.txtRandomId.text = randomId
+    }
+
+    private fun getRandomAlbum() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.randomAlbumUiState.collect { uiState ->
+                    with(binding) {
+                        when {
+                            uiState.isLoading -> {
+                                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                            }
+                            uiState.isError?.isNotEmpty() == true -> {
+                                Toast.makeText(requireContext(), "${uiState.isError}", Toast.LENGTH_SHORT).show()
+                            }
+                            uiState.randomAlbumData.isNotEmpty() -> {
+                                val randomAlbum = uiState.randomAlbumData
+
+                                val albumCover = randomAlbum[0].images.find { it.width == 640 && it.height == 640 }
+                                imgAlbum.load(albumCover?.url)
+                                val artist = randomAlbum[0].artists.joinToString(separator = ", ") { it.name }
+                                txtRandomAlbum.text = artist
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
